@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { SearchbarComponent } from '../components/searchbar/searchbar.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [SearchbarComponent],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
-export class NavbarComponent {
-
-}
+export class NavbarComponent {}

@@ -1,0 +1,14 @@
+<div
+  class="flex justify-between bg-[#212E4C] w-full py-4 m-0 px-2 rounded-bl-xl rounded-br-xl"
+>
+  <a [routerLink]="['/pokemon', id - 1]">
+    <img src="assets/ArrowLeft.svg" alt="" />
+  </a>
+  <button><img src="assets/HomeIcon.svg" alt="" /></button>
+  <button><img src="assets/BattleIcon.svg" alt="" /></button>
+  <a [routerLink]="['/pokemon', id + 1]">
+    <img src="assets/ArrowLeft.svg" alt="" class="rotate-180" />
+  </a>
+</div>
+
+<router-outlet></router-outlet>

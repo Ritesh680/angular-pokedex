@@ -1,1 +1,13 @@
-<div class="bg-red-200 h-full">Maincontent</div>
+<div
+  class="grid grid-cols-4 gap-4 mx-auto p-4"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollUpDistance]="1.5"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScrollDown()"
+>
+  @for(data of pokemons;track data){
+
+  <app-card [pokemon]="data"></app-card>
+  }
+</div>

@@ -1,0 +1,29 @@
+<mat-card class="flex flex-col justify-between items-center w-60 shadow-lg">
+  <mat-card-header>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    mat-card-image
+    src="{{ pokemonData?.sprites?.back_default }}"
+    alt="{{ title }}"
+    class="bg-cover w-40"
+  />
+  <mat-card-content>
+    <p class="text-break">
+      {{ details }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>
+      <a
+        routerLink="/pokemon/{{ pokemonData?.id }}"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >View Details</a
+      >
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<router-outlet></router-outlet>

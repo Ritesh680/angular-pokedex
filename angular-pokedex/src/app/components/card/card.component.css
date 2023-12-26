@@ -1,0 +1,9 @@
+.mat-mdc-card {
+  background-color: white;
+}
+.mat-mdc-card-subtitle {
+  color: black;
+}
+.mat-mdc-button:not(:disabled) {
+  color: black;
+}

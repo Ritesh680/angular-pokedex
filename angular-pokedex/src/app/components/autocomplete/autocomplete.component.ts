@@ -28,6 +28,8 @@ interface DropdownOptions {
 export class AutoCompleteComponent implements OnInit {
   myControl = new FormControl('');
   @Input() options: DropdownOptions[] = [];
+  @Input() label: string = '';
+  @Input() handleSelection!: (id: string) => void;
   filteredOptions!: Observable<DropdownOptions[]>;
 
   ngOnInit() {
@@ -43,5 +45,17 @@ export class AutoCompleteComponent implements OnInit {
     return this.options.filter((option) =>
       option.label.toLowerCase().includes(filterValue)
     );
+  }
+
+  getSelectedPokemonId(value: string) {
+    const pokemon = this.options.find((option) => option.label == value);
+    return pokemon?.value;
+  }
+
+  handleSelect(e: any) {
+    const id = this.getSelectedPokemonId(e.source.value);
+    console.log(e);
+
+    this.handleSelection(id as string);
   }
 }

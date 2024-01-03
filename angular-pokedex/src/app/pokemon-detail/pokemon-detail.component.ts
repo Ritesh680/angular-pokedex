@@ -8,6 +8,7 @@ import { LabelComponent } from '../components/label/label.component';
 import { FooterNavigationComponent } from '../footer-navigation/footer-navigation.component';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { CommonModule } from '@angular/common';
+import { TitleImageComponent } from '../components/title-image/title-image.component';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -20,6 +21,7 @@ import { CommonModule } from '@angular/common';
     LabelComponent,
     FooterNavigationComponent,
     CommonModule,
+    TitleImageComponent,
   ],
   templateUrl: './pokemon-detail.component.html',
   styleUrl: './pokemon-detail.component.css',

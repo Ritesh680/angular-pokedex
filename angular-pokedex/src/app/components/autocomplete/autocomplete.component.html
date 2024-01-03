@@ -1,6 +1,6 @@
 <form class="example-form">
   <mat-form-field class="example-full-width">
-    <mat-label>Number</mat-label>
+    <mat-label>{{ label }}</mat-label>
     <input
       type="text"
       placeholder="Pick one"
@@ -11,7 +11,12 @@
     />
     <mat-autocomplete #auto="matAutocomplete">
       @for (option of filteredOptions | async; track option) {
-      <mat-option [value]="option.label">{{ option.label }}</mat-option>
+      <mat-option
+        [value]="selectedOption.label"
+        (onSelectionChange)="handleSelect(option)"
+      >
+        {{ option.label }}</mat-option
+      >
       }
     </mat-autocomplete>
   </mat-form-field>

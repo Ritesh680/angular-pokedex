@@ -10,9 +10,9 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllPokemons(offset = 20): Observable<GetPokemons> {
+  getAllPokemons(offset = 0, limit = 20): Observable<GetPokemons> {
     return this.httpClient.get<GetPokemons>(
-      this.apiUrl + `/pokemon?offset=${offset}&limit=20`
+      this.apiUrl + `/pokemon?offset=${offset}&limit=${limit}`
     );
   }
   getApiData<T>(api: string): Observable<T> {

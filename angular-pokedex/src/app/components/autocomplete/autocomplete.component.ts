@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,9 +28,16 @@ interface DropdownOptions {
 export class AutoCompleteComponent implements OnInit {
   myControl = new FormControl('');
   @Input() options: DropdownOptions[] = [];
+  @Input() label: string = '';
+  @Input() disabled: boolean = true;
+  @Input() defaultValue = '';
+
+  @Output() handleSelection = new EventEmitter<string>();
   filteredOptions!: Observable<DropdownOptions[]>;
+  selectedOption!: DropdownOptions;
 
   ngOnInit() {
+    this.selectedOption = this.getSelectedPokemon(this.defaultValue);
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
@@ -43,5 +50,15 @@ export class AutoCompleteComponent implements OnInit {
     return this.options.filter((option) =>
       option.label.toLowerCase().includes(filterValue)
     );
+  }
+
+  getSelectedPokemon(value: string): DropdownOptions {
+    const pokemon = this.options.find((option) => option.label == value);
+    return pokemon ?? { label: '', value: '' };
+  }
+
+  handleSelect(option: DropdownOptions) {
+    this.selectedOption = option;
+    this.handleSelection.emit(option.value as string);
   }
 }

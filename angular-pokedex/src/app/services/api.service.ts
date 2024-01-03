@@ -22,4 +22,7 @@ export class ApiService {
   getPokemonDataById(id: string): Observable<PokemonData> {
     return this.httpClient.get<PokemonData>(this.apiUrl + `/pokemon/${id}`);
   }
+  getMovesDetails(url: string): Observable<MoveDetails> {
+    return this.httpClient.get<MoveDetails>(url);
+  }
 }

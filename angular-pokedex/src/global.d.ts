@@ -30,6 +30,11 @@ declare global {
     weight: number;
     types: Types[];
     stats: Stats[];
+    moves: Moves[];
+  }
+
+  interface Moves {
+    move: Result;
   }
   interface Ability {
     ability: Result;
@@ -84,4 +89,10 @@ declare global {
     | 'special-attack'
     | 'defense'
     | 'special-defense';
+
+  interface MoveDetails {
+    id: number;
+    name: string;
+    power: number;
+  }
 }

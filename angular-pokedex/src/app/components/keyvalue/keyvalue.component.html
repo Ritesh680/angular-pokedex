@@ -2,5 +2,7 @@
   <span class="text-lg text-[#97A0CC] whitespace-nowrap">{{
     label.toUpperCase()
   }}</span>
-  <span class="text-2xl text-white">{{ value }}</span>
+  <span class="text-2xl" [ngClass]="extraStyles ?? 'text-white'">{{
+    value
+  }}</span>
 </div>

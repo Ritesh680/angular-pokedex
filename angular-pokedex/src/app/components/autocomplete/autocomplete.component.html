@@ -12,9 +12,8 @@
     <mat-autocomplete #auto="matAutocomplete">
       @for (option of filteredOptions | async; track option) {
       <mat-option
-        [value]="option.label"
-        [id]="option.value.toString()"
-        (onSelectionChange)="handleSelect($event)"
+        [value]="selectedOption.label"
+        (onSelectionChange)="handleSelect(option)"
       >
         {{ option.label }}</mat-option
       >

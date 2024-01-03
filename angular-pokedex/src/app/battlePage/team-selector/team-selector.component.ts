@@ -23,8 +23,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './team-selector.component.css',
 })
 export class TeamSelectorComponent implements OnInit {
-  pokemon1Id!: number;
-  pokemon2Id!: number;
+  pokemon1Id!: string;
+  pokemon2Id!: string;
 
   pokemon1Data!: PokemonData;
   pokemon2Data!: PokemonData;
@@ -32,12 +32,12 @@ export class TeamSelectorComponent implements OnInit {
   pokemonOptions: DropdownProps[] = [];
 
   constructor(private api: ApiService, private route: ActivatedRoute) {
-    this.route.paramMap.subscribe(() => this.ngOnInit());
+    // this.route.paramMap.subscribe(() => this.ngOnInit());
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
-      (params) => (this.pokemon1Id = +params.get('pokemon1')!)
+      (params) => (this.pokemon1Id = params.get('pokemon1')!)
     );
 
     this.getPokemonData(this.pokemon1Id.toString()).subscribe(
@@ -47,6 +47,17 @@ export class TeamSelectorComponent implements OnInit {
     this.getAllPokemonsList();
   }
 
+  getPokemonData = (id: string) => {
+    return this.api.getPokemonDataById(id);
+  };
+
+  handleDropdownSelect(id: string) {
+    this.pokemon2Id = id;
+
+    return this.getPokemonData(id).subscribe(
+      (res) => (this.pokemon2Data = res)
+    );
+  }
   getStatsValue(pokemonData: PokemonData, name: StatType) {
     const result = pokemonData?.stats.find((stat) => stat?.stat?.name == name);
     if (result) {
@@ -55,13 +66,8 @@ export class TeamSelectorComponent implements OnInit {
     return '';
   }
 
-  getPokemonData(id: string) {
-    return this.api.getPokemonDataById(id);
-  }
-
   getIdFromUrl(url: string) {
     const res = url.split('/');
-    console.log(res[res.length - 2]);
     return res[res.length - 2] as string;
   }
 
@@ -73,16 +79,5 @@ export class TeamSelectorComponent implements OnInit {
       });
       this.pokemonOptions = tempData;
     });
-  }
-
-  handleDropdownSelect(id: string) {
-    this.pokemon2Id = +id;
-
-    this.api
-      .getPokemonDataById(id)
-      ?.subscribe((res) => (this.pokemon2Data = res));
-    // this.getPokemonData(this.pokemon2Id.toString()).subscribe(
-    //   (res) => (this.pokemon2Data = res)
-    // );
   }
 }

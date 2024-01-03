@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,10 +29,15 @@ export class AutoCompleteComponent implements OnInit {
   myControl = new FormControl('');
   @Input() options: DropdownOptions[] = [];
   @Input() label: string = '';
-  @Input() handleSelection!: (id: string) => void;
+  @Input() disabled: boolean = true;
+  @Input() defaultValue = '';
+
+  @Output() handleSelection = new EventEmitter<string>();
   filteredOptions!: Observable<DropdownOptions[]>;
+  selectedOption!: DropdownOptions;
 
   ngOnInit() {
+    this.selectedOption = this.getSelectedPokemon(this.defaultValue);
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
@@ -47,15 +52,13 @@ export class AutoCompleteComponent implements OnInit {
     );
   }
 
-  getSelectedPokemonId(value: string) {
+  getSelectedPokemon(value: string): DropdownOptions {
     const pokemon = this.options.find((option) => option.label == value);
-    return pokemon?.value;
+    return pokemon ?? { label: '', value: '' };
   }
 
-  handleSelect(e: any) {
-    const id = this.getSelectedPokemonId(e.source.value);
-    console.log(e);
-
-    this.handleSelection(id as string);
+  handleSelect(option: DropdownOptions) {
+    this.selectedOption = option;
+    this.handleSelection.emit(option.value as string);
   }
 }

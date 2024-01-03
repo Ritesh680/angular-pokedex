@@ -1,39 +1,48 @@
 <div class="grid grid-flow-col grid-cols-2 gap-10">
-  <app-master-card class="px-10 py-4" [bgColor]="'bg-gray-300'">
-    <div class="flex flex-col items-center justify-center">
-      <app-title-image
-        [imgSrc]="pokemon1Data?.sprites?.other?.home?.front_default"
-      ></app-title-image>
+  <div class="flex flex-col gap-5">
+    <app-autocomplete
+      [disabled]="true"
+      [options]="pokemonOptions"
+      [label]="'Select Pokemon'"
+      (handleSelection)="handleDropdownSelect($event)"
+      [defaultValue]="pokemon1Id"
+    ></app-autocomplete>
+    <app-master-card class="px-10 py-4" [bgColor]="'bg-gray-300'">
+      <div class="flex flex-col items-center justify-center">
+        <app-title-image
+          [imgSrc]="pokemon1Data?.sprites?.other?.home?.front_default"
+        ></app-title-image>
 
-      <app-label [label]="pokemon1Data.name"></app-label>
+        <app-label [label]="pokemon1Data?.name ?? ''"></app-label>
 
-      <div class="flex flex-col">
-        <app-keyvalue
-          [label]="'Attack'"
-          [value]="getStatsValue(pokemon1Data, 'attack')"
-        ></app-keyvalue>
-        <app-keyvalue
-          [label]="'Special Attack'"
-          [value]="getStatsValue(pokemon1Data, 'defense')"
-        ></app-keyvalue>
+        <div class="flex flex-col">
+          <app-keyvalue
+            [label]="'Attack'"
+            [value]="getStatsValue(pokemon1Data, 'attack')"
+          ></app-keyvalue>
+          <app-keyvalue
+            [label]="'Special Attack'"
+            [value]="getStatsValue(pokemon1Data, 'defense')"
+          ></app-keyvalue>
 
-        <app-keyvalue
-          [label]="'Defense'"
-          [value]="getStatsValue(pokemon1Data, 'defense')"
-        ></app-keyvalue>
-        <app-keyvalue
-          [label]="'Special Defense'"
-          [value]="getStatsValue(pokemon1Data, 'defense')"
-        ></app-keyvalue>
+          <app-keyvalue
+            [label]="'Defense'"
+            [value]="getStatsValue(pokemon1Data, 'defense')"
+          ></app-keyvalue>
+          <app-keyvalue
+            [label]="'Special Defense'"
+            [value]="getStatsValue(pokemon1Data, 'defense')"
+          ></app-keyvalue>
+        </div>
       </div>
-    </div>
-  </app-master-card>
+    </app-master-card>
+  </div>
 
   <div class="flex flex-col gap-5">
     <app-autocomplete
       [options]="pokemonOptions"
       [label]="'Select Pokemon'"
-      [handleSelection]="handleDropdownSelect"
+      (handleSelection)="handleDropdownSelect($event)"
     ></app-autocomplete>
     <ng-template [ngIf]="pokemon2Id">
       <app-master-card class="px-10 py-4" [bgColor]="'bg-gray-300'">
@@ -67,4 +76,7 @@
       </app-master-card>
     </ng-template>
   </div>
+</div>
+<div class="flex justify-center">
+  <button class="btn bg-red-400 text-white rounded-lg px-5 py-2">Fight</button>
 </div>

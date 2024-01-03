@@ -1,4 +1,4 @@
-<div class="grid grid-flow-col grid-cols-2 gap-10">
+<div class="flex justify-between items-end">
   <div class="flex flex-col gap-5">
     <app-autocomplete
       [disabled]="true"
@@ -7,36 +7,68 @@
       (handleSelection)="handleDropdownSelect($event)"
       [defaultValue]="pokemon1Id"
     ></app-autocomplete>
-    <app-master-card class="px-10 py-4" [bgColor]="'bg-gray-300'">
-      <div class="flex flex-col items-center justify-center">
+
+    <app-master-card class="py-4 px-10" [bgColor]="'bg-gray-300'">
+      <app-progressbar
+        progress="pokemon1HP"
+        extraStyles="bg-red-800"
+      ></app-progressbar>
+      <div class="flex justify-between px-5">
+        <span
+          >HP: {{ pokemon1HP }} / {{ getStatsValue(pokemon1Data, "hp") }}</span
+        >
+        <span>Defence Left: {{ pokemon1Defence }} </span>
+      </div>
+      <div class="flex flex-col items-center justify-center px-10">
         <app-title-image
-          [imgSrc]="pokemon1Data?.sprites?.other?.home?.front_default"
+          [imgSrc]="pokemon1Data.sprites.other.home.front_default"
         ></app-title-image>
 
-        <app-label [label]="pokemon1Data?.name ?? ''"></app-label>
+        <app-label [label]="pokemon1Data.name"></app-label>
 
-        <div class="flex flex-col">
-          <app-keyvalue
-            [label]="'Attack'"
-            [value]="getStatsValue(pokemon1Data, 'attack')"
-          ></app-keyvalue>
-          <app-keyvalue
-            [label]="'Special Attack'"
-            [value]="getStatsValue(pokemon1Data, 'defense')"
-          ></app-keyvalue>
+        <div class="grid grid-cols-2 gap-10 bg-gray-100 p-5 rounded-lg mb-4">
+          <div class="flex flex-col">
+            <app-keyvalue
+              [label]="'Attack'"
+              [value]="getStatsValue(pokemon1Data, 'attack')"
+              extraStyles="text-black"
+            ></app-keyvalue>
+            <app-keyvalue
+              [label]="'Special Attack'"
+              [value]="getStatsValue(pokemon1Data, 'special-attack')"
+              extraStyles="text-black"
+            ></app-keyvalue>
 
-          <app-keyvalue
-            [label]="'Defense'"
-            [value]="getStatsValue(pokemon1Data, 'defense')"
-          ></app-keyvalue>
-          <app-keyvalue
-            [label]="'Special Defense'"
-            [value]="getStatsValue(pokemon1Data, 'defense')"
-          ></app-keyvalue>
+            <app-keyvalue
+              [label]="'Defense'"
+              [value]="getStatsValue(pokemon1Data, 'defense')"
+              extraStyles="text-black"
+            ></app-keyvalue>
+            <app-keyvalue
+              [label]="'Special Defense'"
+              [value]="getStatsValue(pokemon1Data, 'special-defense')"
+              extraStyles="text-black"
+            ></app-keyvalue>
+          </div>
+
+          <!-- moves -->
+          <div *ngIf="pokemon1moves" class="flex flex-col">
+            <app-keyvalue
+              *ngFor="let move of pokemon1moves.slice(0, 4)"
+              [label]="move.name"
+              [value]="move.value ?? 'null'"
+              extraStyles="text-black"
+            ></app-keyvalue>
+          </div>
         </div>
       </div>
     </app-master-card>
   </div>
+
+  <app-battle-info
+    *ngIf="isFightOn"
+    [battleLogs]="battleLogs"
+  ></app-battle-info>
 
   <div class="flex flex-col gap-5">
     <app-autocomplete
@@ -46,31 +78,60 @@
     ></app-autocomplete>
     <ng-template [ngIf]="pokemon2Id">
       <app-master-card class="px-10 py-4" [bgColor]="'bg-gray-300'">
-        <div class="flex flex-col items-center justify-center">
+        <app-progressbar
+          progress="pokemon2HP"
+          extraStyles="bg-green-800"
+        ></app-progressbar>
+
+        <div class="flex justify-between px-5">
+          <span
+            >HP: {{ pokemon2HP }} /
+            {{ getStatsValue(pokemon2Data, "hp") }}</span
+          >
+          <span>Defence Left: {{ pokemon2Defence }} </span>
+        </div>
+
+        <div class="flex flex-col items-center justify-center px-10">
           <app-title-image
-            [imgSrc]="pokemon2Data?.sprites?.other?.home?.front_default"
+            [imgSrc]="pokemon2Data.sprites.other.home.front_default"
           ></app-title-image>
 
-          <app-label [label]="pokemon2Data?.name ?? 'label'"></app-label>
+          <app-label [label]="pokemon2Data.name"></app-label>
 
-          <div class="flex flex-col">
-            <app-keyvalue
-              [label]="'Attack'"
-              [value]="getStatsValue(pokemon2Data, 'attack')"
-            ></app-keyvalue>
-            <app-keyvalue
-              [label]="'Special Attack'"
-              [value]="getStatsValue(pokemon2Data, 'defense')"
-            ></app-keyvalue>
+          <div class="grid grid-cols-2 gap-10 bg-gray-100 p-5 rounded-lg mb-4">
+            <div class="flex flex-col">
+              <app-keyvalue
+                [label]="'Attack'"
+                [value]="getStatsValue(pokemon2Data, 'attack')"
+                extraStyles="text-black"
+              ></app-keyvalue>
+              <app-keyvalue
+                [label]="'Special Attack'"
+                [value]="getStatsValue(pokemon2Data, 'defense')"
+                extraStyles="text-black"
+              ></app-keyvalue>
 
-            <app-keyvalue
-              [label]="'Defense'"
-              [value]="getStatsValue(pokemon2Data, 'defense')"
-            ></app-keyvalue>
-            <app-keyvalue
-              [label]="'Special Defense'"
-              [value]="getStatsValue(pokemon2Data, 'defense')"
-            ></app-keyvalue>
+              <app-keyvalue
+                [label]="'Defense'"
+                [value]="getStatsValue(pokemon2Data, 'defense')"
+                extraStyles="text-black"
+              ></app-keyvalue>
+              <app-keyvalue
+                [label]="'Special Defense'"
+                [value]="getStatsValue(pokemon2Data, 'defense')"
+                extraStyles="text-black"
+              ></app-keyvalue>
+            </div>
+
+            <!-- moves-->
+            <div *ngIf="pokemon2moves" class="flex flex-col">
+              <app-keyvalue
+                *ngFor="let move of pokemon2moves.slice(0, 4)"
+                [label]="move.name"
+                [value]="move.value ?? 'null'"
+                extraStyles="text-black"
+              ></app-keyvalue>
+            </div>
           </div>
         </div>
       </app-master-card>
@@ -78,5 +139,10 @@
   </div>
 </div>
 <div class="flex justify-center">
-  <button class="btn bg-red-400 text-white rounded-lg px-5 py-2">Fight</button>
+  <button
+    class="btn bg-red-400 text-white rounded-lg px-5 py-2"
+    (click)="handleFightButton()"
+  >
+    Fight
+  </button>
 </div>

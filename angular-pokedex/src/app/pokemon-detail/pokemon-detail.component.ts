@@ -83,7 +83,6 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
   }
 
   handlePrev() {
-    console.log(this.id);
     if (this.id && +this.id > 1) {
       this.id = (+this.id! - 1).toString();
     }

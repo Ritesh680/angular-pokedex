@@ -99,7 +99,5 @@ export class TableComponent implements OnInit {
     const data = [...this.dataSource];
     this.tableData = data.splice(page * this.perPage, this.perPage);
     this.pageIndex = page;
-
-    console.log(this.dataSource.length);
   }
 }
